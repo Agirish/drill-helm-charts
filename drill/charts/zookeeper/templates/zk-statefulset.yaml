@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  namespace: {{.Values.namespace}}
-  name: {{.Values.zookeeper.id}}
+  namespace: {{ .Values.global.namespace }}
+  name: {{ .Values.id }}
 spec:
   serviceName: zk-service
   replicas: 1
@@ -28,7 +28,7 @@ spec:
       containers:
         - name: zk-pod
           imagePullPolicy: Always
-          image: {{.Values.zookeeper.image}}
+          image: {{ .Values.image }}
           ports:
             - containerPort: 2181
               name: client

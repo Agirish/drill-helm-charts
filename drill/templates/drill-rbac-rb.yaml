@@ -1,12 +1,12 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  namespace: {{.Values.namespace}}
+  namespace: {{.Values.global.namespace}}
   name: drill-rb
 subjects:
   - kind: ServiceAccount
     name: drill-sa
-    namespace: {{.Values.namespace}}
+    namespace: {{.Values.global.namespace}}
 roleRef:
   kind: Role
   name: drill-role

@@ -1,12 +1,12 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  namespace: {{.Values.namespace}}
+  namespace: {{.Values.global.namespace}}
   name: zk-rb
 subjects:
   - kind: ServiceAccount
     name: zk-sa
-    namespace: {{.Values.namespace}}
+    namespace: {{.Values.global.namespace}}
 roleRef:
   kind: Role
   name: zk-role
