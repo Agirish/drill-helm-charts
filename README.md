@@ -13,3 +13,35 @@ drill/
   charts/       # A directory containing the ZK charts
   templates/    # A directory of templates, when combined with values, will generate valid Kubernetes manifest files
   ```
+## Usage
+
+### Create Namespace
+Kubernetes [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) can be used when more that one Drill Cluster needs to be created. We use the `default` namespace, so this step can be skipped if only one cluster is planned.
+```
+kubectl create namespace <NAMESPACE_NAME>
+```
+This NAMESPACE_NAME needs to be provided in `drill/values.yaml`. 
+
+### Edit values.yaml
+Helm Charts use `values.yaml` for providing values such as the namespace, number of drillbits and more to the `template` files
+
+Sample [values.yaml](drill/values.yaml)
+
+```
+repo: hub.docker.com/r/         # Drill Image repository
+namespace: default              # Provide the NAMESPACE_NAME value here
+drill:
+  id: drill                     # Drill Cluster Name
+  count: 1                      # Number of drill-bits per Drill Cluster
+  memory: 5Gi                   # Total memory for each drill-bit (sum total of the below 3 fields)
+  direct_memory: 3G             # Direct memory for each drill-bit
+  heap_memory: 1G               # Heap memory for each drill-bit
+  code_cache_memory: 512M       # Code Cache memory for each drill-bit 
+  cpu: 500m                     # CPU for each drill-bit (in milli-cpus)
+  image: agirish/drill:1.14.0   # Drill image name with tag
+```
+
+### Install the Drill Chart
+```
+helm install <UNIQUE_NAME> drill/
+```
