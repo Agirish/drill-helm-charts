@@ -1,4 +1,4 @@
-# Helm Charts to Deploy Apache Drill on Kubernetes
+# Helm Charts for Apache Drill
 
 ## Overview
 This repository contains a collection of files that can be used to deploy [Apache Drill](http://drill.apache.org/) on Kubernetes using Helm Charts. Supports single-node and [cluster](http://drill.apache.org/docs/installing-drill-in-distributed-mode/) modes.
