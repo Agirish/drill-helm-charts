@@ -1,5 +1,5 @@
 repo: hub.docker.com/r/
-namespace: apache
+namespace: default
 drill:
   id: drill
   count: 1

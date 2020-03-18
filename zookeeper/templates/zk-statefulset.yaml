@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: zk
   namespace: {{.Values.namespace}}
+  name: zk
 spec:
   serviceName: zk-service
   replicas: 1

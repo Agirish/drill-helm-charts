@@ -1,6 +1,7 @@
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
+  namespace: {{.Values.namespace}}
   name: drill-role
 rules:
   - apiGroups:
@@ -9,4 +10,3 @@ rules:
       - '*'
     verbs:
       - '*'
-

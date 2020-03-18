@@ -1,5 +1,5 @@
 repo: hub.docker.com/r/
-namespace: apache
+namespace: values
 drill:
   id: zk
   count: 1

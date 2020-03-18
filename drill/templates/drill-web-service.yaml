@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Values.drill.id}}-web-svc
   namespace: {{.Values.namespace}}
+  name: {{.Values.drill.id}}-web-svc
   labels:
     app: {{.Values.drill.id}}-web-svc
 spec:
