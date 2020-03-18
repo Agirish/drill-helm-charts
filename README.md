@@ -15,13 +15,6 @@ drill/
   ```
 ## Usage
 
-### Create Namespace
-Kubernetes [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) can be used when more that one Drill Cluster needs to be created. We use the `default` namespace, so this step can be skipped if only one cluster is planned.
-```
-kubectl create namespace <NAMESPACE_NAME>
-```
-This NAMESPACE_NAME needs to be provided in `drill/values.yaml`. 
-
 ### Edit values.yaml
 Helm Charts use `values.yaml` for providing values such as the namespace, number of drillbits and more to the `template` files
 
@@ -43,5 +36,18 @@ drill:
 
 ### Install the Drill Chart
 ```
-helm install <UNIQUE_NAME> drill/
+# helm install <UNIQUE_NAME> drill/
+helm install drill1 drill/
+
+```
+
+Kubernetes [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) can be used when more that one Drill Cluster needs to be created. We use the `default` namespace, so this step can be skipped if only one cluster is planned.
+```
+# kubectl create namespace <NAMESPACE_NAME>
+kubectl create namespace namespace1
+```
+This NAMESPACE_NAME needs to be provided in `drill/values.yaml`. Or can be provided in the helm install command as follows:
+```
+# helm install <UNIQUE_NAME> drill/ --set global.namespace=<NAMESPACE_NAME>
+helm install drill1 drill/ --set global.namespace=namespace1
 ```
