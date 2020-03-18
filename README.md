@@ -1,9 +1,16 @@
 # Helm Charts to Deploy Apache Drill on Kubernetes
 
 ## Overview
-Helm is a package manager for Kubernetes. And Helm Charts is a packaging format that can help with installing and managing lifecycle of Kubernetes applications such as Drill Clusters.
+This repository contains a collection of files that can be used to deploy [Apache Drill](http://drill.apache.org/) on Kubernetes using Helm Charts. Supports single-node and [cluster](http://drill.apache.org/docs/installing-drill-in-distributed-mode/) modes.
 
-Drill Helm Charts is a collection of files that describe the set of resources used for Drill Clusters on Kubernetes.
+#### What are Helm and Charts?
+[Helm](https://helm.sh/) is a package manager for [Kubernetes](https://kubernetes.io/). [Charts](https://helm.sh/docs/topics/charts/) is a packaging format in Helm that can simplify deploying Kubernetes applications such as Drill Clusters.
+
+## Pre-requisites
+
+- Kubernetes Cluster. Drill Helm Charts are tested on [GKE](https://cloud.google.com/kubernetes-engine/)
+- [Helm](https://github.com/helm/helm#install) version 3.x or greater.
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version 1.16.x or greater.
 
 ## Structure
 ```
@@ -34,7 +41,7 @@ drill:
   image: agirish/drill:1.14.0   # Drill image name with tag
 ```
 
-### Install the Drill Chart
+### Deploy Drill on Kubernetes
 ```
 # helm install <UNIQUE_NAME> drill/
 helm install drill1 drill/
