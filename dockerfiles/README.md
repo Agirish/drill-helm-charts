@@ -1,9 +1,9 @@
-##Building Docker Images
+## Building Docker Images
 The dockerfiles directory contains everything required to build and customize Docker images for Apache Drill and Apache ZooKeeper.
 
 Docker images for Apache Drill are available on [Docker Hub](https://hub.docker.com/u/agirish/). 
 
-###Build ZooKeeper
+### Build ZooKeeper
 Takes in 1 parameters - the project version. Example below:
 
 ```
