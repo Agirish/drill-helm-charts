@@ -14,4 +14,4 @@ zookeeper:
   id: zk
   memory: 2Gi
   cpu: 500m
-  image: agirish/zookeeper:3.4.10
+  image: agirish/zookeeper:3.6.0
