@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.id }}
 spec:
   serviceName: zk-service
-  replicas: 1
+  replicas: {{.Values.count}}
   selector: 
     matchLabels: 
       app: zk-quorum

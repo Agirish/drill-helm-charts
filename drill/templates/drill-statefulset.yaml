@@ -5,7 +5,7 @@ metadata:
   name: {{.Values.drill.id}}-drillbit
 spec:
   serviceName: drill-service
-  replicas: 1
+  replicas: {{.Values.drill.count}}
   selector: 
     matchLabels: 
       app: drill-app
