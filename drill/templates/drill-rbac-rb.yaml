@@ -5,8 +5,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: drill-sa
-    namespace:
-      '[object Object]': null
+    namespace: {{.Values.namespace}}
 roleRef:
   kind: Role
   name: drill-role
