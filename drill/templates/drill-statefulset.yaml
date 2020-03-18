@@ -28,7 +28,7 @@ spec:
       containers:
         - name: drill-pod
           imagePullPolicy: Always
-          image: agirish/drill:1.17.0
+          image: {{.Values.drill.image}}
           ports:
             - containerPort: 8047
               name: http

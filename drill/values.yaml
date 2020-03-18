@@ -8,4 +8,4 @@ drill:
   heap_memory: 1G
   code_cache_memory: 512M
   cpu: 500m
-  image: agirish/drill:1.17.0
+  image: agirish/drill:1.14.0
