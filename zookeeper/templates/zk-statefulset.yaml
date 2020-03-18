@@ -1,0 +1,34 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: zk
+  namespace: {{.Values.namespace}}
+spec:
+  serviceName: zk-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: zk-quorum
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - zk-quorum
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: zk-pod
+          imagePullPolicy: Always
+          image: agirish/zookeeper:3.4.10
+          ports:
+            - containerPort: 2181
+              name: client
+            - containerPort: 2888
+              name: server
+            - containerPort: 3888
+              name: leader-election
