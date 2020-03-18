@@ -1,4 +1,4 @@
-repo: hub.docker.com/r/
+repo: hub.docker.com/u/
 
 global:
   namespace: default
@@ -8,11 +8,10 @@ drill:
   count: 1
   memory: 5Gi
   cpu: 4000m
-  image: agirish/drill:1.14.0
+  image: agirish/drill:1.17.0
 
 zookeeper:
   id: zk
-  count: 1
   memory: 2Gi
   cpu: 500m
   image: agirish/zookeeper:3.4.10
