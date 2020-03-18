@@ -28,17 +28,23 @@ Helm Charts use `values.yaml` for providing values such as the namespace, number
 Sample [values.yaml](drill/values.yaml)
 
 ```
-repo: hub.docker.com/r/         # Drill Image repository
-namespace: default              # Provide the NAMESPACE_NAME value here
+repo: hub.docker.com/u/           # Drill Image repository
+
+global:
+  namespace: default              # Provide the NAMESPACE_NAME value here
+
 drill:
-  id: drill                     # Drill Cluster Name
-  count: 1                      # Number of drill-bits per Drill Cluster
-  memory: 5Gi                   # Total memory for each drill-bit (sum total of the below 3 fields)
-  direct_memory: 3G             # Direct memory for each drill-bit
-  heap_memory: 1G               # Heap memory for each drill-bit
-  code_cache_memory: 512M       # Code Cache memory for each drill-bit 
-  cpu: 500m                     # CPU for each drill-bit (in milli-cpus)
-  image: agirish/drill:1.14.0   # Drill image name with tag
+  id: drill                       # Drill Cluster Name
+  count: 1                        # Number of drill-bits per Drill Cluster
+  memory: 5Gi                     # Memory for each drill pod (in Gigibytes - Gi)
+  cpu: 500m                       # CPU for each drill pod (in milli-cpus)
+  image: agirish/drill:1.17.0     # Drill image name with tag
+
+zookeeper:
+  id: zk                          # Zookeeper Name
+  memory: 2Gi                     # Memory for each ZK pod (in Gigibytes - Gi)
+  cpu: 500m                       # CPU for each ZK pod (in milli-cpus)
+  image: agirish/zookeeper:3.6.0  # Zookeeper image name with tag
 ```
 
 ### Deploy Drill on Kubernetes
