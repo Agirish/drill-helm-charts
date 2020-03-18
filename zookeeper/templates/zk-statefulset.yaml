@@ -6,6 +6,9 @@ metadata:
 spec:
   serviceName: zk-service
   replicas: 1
+  selector: 
+    matchLabels: 
+      app: zk-quorum
   template:
     metadata:
       labels:
@@ -21,6 +24,7 @@ spec:
                     values:
                       - zk-quorum
               topologyKey: "kubernetes.io/hostname"
+      serviceAccountName: zk-sa
       containers:
         - name: zk-pod
           imagePullPolicy: Always

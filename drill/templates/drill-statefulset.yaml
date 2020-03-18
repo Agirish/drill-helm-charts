@@ -6,6 +6,9 @@ metadata:
 spec:
   serviceName: drill-service
   replicas: 1
+  selector: 
+    matchLabels: 
+      app: drill-app
   template:
     metadata:
       labels:
@@ -21,6 +24,7 @@ spec:
                     values:
                       - drill-app
               topologyKey: "kubernetes.io/hostname"
+      serviceAccountName: drill-sa
       containers:
         - name: drill-pod
           imagePullPolicy: Always
