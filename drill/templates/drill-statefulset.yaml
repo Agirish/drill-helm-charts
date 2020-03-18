@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  namespace: {{.Values.namespace}}
+  name: drillbit
+spec:
+  serviceName: drill-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: drill-app
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - drill-app
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: drill-pod
+          imagePullPolicy: Always
+          image: agirish/drill:1.17.0
+          ports:
+            - containerPort: 8047
+              name: http
+            - containerPort: 31010
+              name: userport
+            - containerPort: 31011
+              name: controlport
+            - containerPort: 31012
+              name: dataport
+      initContainers:
+        - name: zk-available
+          image: busybox
+          command: ['sh', '-c', 'until nc -z zk-service 2181; do echo Waiting for ZK to come up; sleep 5; done; ']
