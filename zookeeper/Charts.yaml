@@ -1,0 +1,15 @@
+apiVersion: v2
+name: zookeeper
+version: 1.0.0
+appVersion: 3.4.10
+description: Helm Charts for deploying Apache Zookeeper Quorum on Kubernetes
+type: application
+keywords:
+  - zookeeper
+home: 'http://zookeeper.apache.org/'
+sources:
+  - 'https://github.com/Agirish/drill-helm-charts'
+maintainers:
+  - name: Abhishek Girish
+    email: agirish@apache.org
+
