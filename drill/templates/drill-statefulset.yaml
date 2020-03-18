@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   namespace: {{.Values.namespace}}
-  name: drillbit
+  name: {{.Values.drill.id}}-drillbit
 spec:
   serviceName: drill-service
   replicas: 1

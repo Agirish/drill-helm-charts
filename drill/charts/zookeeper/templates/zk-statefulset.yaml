@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   namespace: {{.Values.namespace}}
-  name: zk}
+  name: {{.Values.zookeeper.id}}
 spec:
   serviceName: zk-service
   replicas: 1
@@ -28,7 +28,7 @@ spec:
       containers:
         - name: zk-pod
           imagePullPolicy: Always
-          image: agirish/zookeeper:3.4.10
+          image: {{.Values.zookeeper.image}}
           ports:
             - containerPort: 2181
               name: client
