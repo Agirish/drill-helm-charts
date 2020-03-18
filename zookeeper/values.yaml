@@ -1,0 +1,8 @@
+repo: hub.docker.com/r/
+namespace: apache
+drill:
+  id: zk
+  count: 1
+  memory: 2Gi
+  cpu: 500m
+  image: agirish/zookeeper:3.4.10

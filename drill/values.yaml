@@ -1,0 +1,11 @@
+repo: hub.docker.com/r/
+namespace: apache
+drill:
+  id: drill
+  count: 1
+  memory: 5Gi
+  direct_memory: 3G
+  heap_memory: 1G
+  code_cache_memory: 512M
+  cpu: 500m
+  image: agirish/drill:1.17.0
