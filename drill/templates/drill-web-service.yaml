@@ -17,4 +17,4 @@ spec:
     targetPort: {{ .Values.drill.userServerPort }}
   type: LoadBalancer
   selector:
-    app: {{.Values.drill.id}}-app
+    app: drill-app
