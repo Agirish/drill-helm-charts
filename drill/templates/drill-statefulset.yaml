@@ -38,6 +38,19 @@ spec:
               name: controlport
             - containerPort: 31012
               name: dataport
+          env:
+            - name: KUBERNETES_CONTAINER
+              value: "true"
+            - name: POD_NAME
+              value: "drill-bit"
+            - name: DRILL_ZK_ROOT
+              value: {{.Values.drill.id}}
+            - name: DRILL_MAX_MEMORY
+              value: {{.Values.drill.memory}}
+            - name: DRILL_HTTP_PORT
+              value: "8047"
+            - name: DRILL_USER_SERVER_PORT
+              value: "31010"
       initContainers:
         - name: zk-available
           image: busybox
