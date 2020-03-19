@@ -47,8 +47,7 @@ drill/
 ### Values
 Helm Charts use `values.yaml` for providing default values to 'variables' used in the chart templates. These values may be overridden either by editing the `values.yaml` file or during `helm install`. For example, such as the namespace, number of drillbits and more to the `template` files
 
-[values.yaml](drill/values.yaml). This values file also provides
-
+Drill Helm Charts contain the following default values:
 ```
 repo: hub.docker.com/u/           # Drill Image repository
 
@@ -69,20 +68,29 @@ zookeeper:
   image: agirish/zookeeper:3.6.0  # Zookeeper image name with tag
 ```
 
-### Deploy Drill on Kubernetes
+### Install
+Drill Helm Charts can be installed using the following command: 
 ```
 # helm install <UNIQUE_NAME> drill/
 helm install drill1 drill/
-
 ```
-
-Kubernetes [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) can be used when more that one Drill Cluster needs to be created. We use the `default` namespace, so this step can be skipped if only one cluster is planned.
+Kubernetes [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) can be used when more that one Drill Cluster needs to be created. We use the `default` namespace by default. To create a namespace, use the following command:
 ```
 # kubectl create namespace <NAMESPACE_NAME>
 kubectl create namespace namespace1
 ```
-This NAMESPACE_NAME needs to be provided in `drill/values.yaml`. Or can be provided in the helm install command as follows:
+This NAMESPACE_NAME needs to be provided in `drill/values.yaml`. Or can be provided in the `helm install` command as follows:
 ```
 # helm install <UNIQUE_NAME> drill/ --set global.namespace=<NAMESPACE_NAME>
 helm install drill1 drill/ --set global.namespace=namespace1
+helm install drill2 drill/ --set global.namespace=namespace2
+```
+Note that installing the Drill Helm Chart also installs the dependent Zookeeper chart. So with current design, for each instance of a Drill cluster includes a single-node Zookeeper.
+
+### Uninstall
+Drill Helm Charts can be uninstalled using the following command: 
+```
+# helm [uninstall|delete] --purge <UNIQUE_NAME_USED_ABOVE>
+helm delete --purge drill1
+helm delete --purge drill2
 ```
