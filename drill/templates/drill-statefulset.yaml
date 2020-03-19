@@ -30,13 +30,13 @@ spec:
           imagePullPolicy: Always
           image: {{.Values.drill.image}}
           ports:
-            - containerPort: 8047
+            - containerPort: {{ .Values.drill.httpPort }}
               name: http
-            - containerPort: 31010
+            - containerPort: {{ .Values.drill.userServerPort }}
               name: userport
-            - containerPort: 31011
+            - containerPort: {{ add .Values.drill.userServerPort +1 }}
               name: controlport
-            - containerPort: 31012
+            - containerPort: {{ add .Values.drill.userServerPort +2 }}
               name: dataport
           env:
             - name: KUBERNETES_CONTAINER
@@ -48,9 +48,9 @@ spec:
             - name: DRILL_MAX_MEMORY
               value: {{.Values.drill.memory}}
             - name: DRILL_HTTP_PORT
-              value: "8047"
+              value: "{{.Values.drill.httpPort}}"
             - name: DRILL_USER_SERVER_PORT
-              value: "31010"
+              value: "{{.Values.drill.userServerPort}}"
       initContainers:
         - name: zk-available
           image: busybox

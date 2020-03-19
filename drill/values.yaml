@@ -9,6 +9,8 @@ drill:
   memory: 5Gi
   cpu: 4000m
   image: agirish/drill:1.17.0
+  httpPort: 8047
+  userServerPort: 31010
 
 zookeeper:
   id: zk

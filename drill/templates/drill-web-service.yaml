@@ -9,12 +9,12 @@ spec:
   ports:
   - protocol: TCP
     name: http
-    port: 8047
-    targetPort: 8047
+    port: {{ .Values.drill.httpPort }}
+    targetPort: {{ .Values.drill.httpPort }}
   - protocol: TCP
     name: server
-    port: 31010
-    targetPort: 31010
+    port: {{ .Values.drill.userServerPort }}
+    targetPort: {{ .Values.drill.userServerPort }}
   type: LoadBalancer
   selector:
     app: {{.Values.drill.id}}-app

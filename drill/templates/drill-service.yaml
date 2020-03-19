@@ -6,12 +6,12 @@ metadata:
 spec:
   ports:
     - name: http
-      port: 8047
+      port: {{ .Values.drill.httpPort }}
     - name: userport
-      port: 31010
+      port: {{ .Values.drill.userServerPort }}
     - name: controlport
-      port: 31011
+      port: {{ add .Values.drill.userServerPort +1 }}
     - name: dataport
-      port: 31012
+      port: {{ add .Values.drill.userServerPort +2 }}
   selector:
     app: drill-app
