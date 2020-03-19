@@ -4,7 +4,7 @@ global:
   namespace: default
 
 drill:
-  id: drill
+  id: drillcluster1
   count: 1
   memory: 5Gi
   cpu: 4000m
