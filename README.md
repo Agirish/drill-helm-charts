@@ -89,6 +89,6 @@ Note that installing the Drill Helm Chart also installs the dependent Zookeeper 
 Drill Helm Charts can be uninstalled using the following command: 
 ```
 # helm [uninstall|delete] --purge <UNIQUE_NAME_USED_ABOVE>
-helm delete --purge drill1
-helm delete --purge drill2
+helm delete drill1
+helm delete drill2
 ```
