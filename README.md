@@ -67,7 +67,7 @@ zookeeper:
 
 ## Usage
 ### Install
-Drill Helm Charts can be installed using the following command: 
+Drill Helm Charts can be installed as follows: 
 ```
 # helm install <UNIQUE_NAME> drill/
 helm install drill1 drill/
@@ -85,8 +85,15 @@ helm install drill2 drill/ --set global.namespace=namespace2
 ```
 Note that installing the Drill Helm Chart also installs the dependent Zookeeper chart. So with current design, for each instance of a Drill cluster includes a single-node Zookeeper.
 
+### Package
+Drill Helm Charts can be packaged for distribution as follows:
+```
+$ helm package drill/
+Successfully packaged chart and saved it to: /Users/agirish/Projects/drill-helm-charts/drill-1.0.0.tgz
+```
+
 ### Uninstall
-Drill Helm Charts can be uninstalled using the following command: 
+Drill Helm Charts can be uninstalled as follows: 
 ```
 # helm [uninstall|delete] --purge <UNIQUE_NAME_USED_ABOVE>
 helm delete drill1
