@@ -21,8 +21,6 @@ drill/
   charts/       # A directory containing the ZK charts
   templates/    # A directory of templates, when combined with values, will generate valid Kubernetes manifest files
   ```
-## Usage
-
 ### Templates
 Helm Charts contain `templates` which are used to generate Kubernetes manifest files. These are YAML-formatted resource descriptions that Kubernetes can understand. These templates contain 'variables', values for which  are picked up from the `values.yaml` file.
 
@@ -43,7 +41,6 @@ drill/
         zk-service.yaml     # To create a ZK Service
         zk-statefulset.yaml # To create a ZK cluster. Currently only a single-node ZK (1 replica) is supported
 ```
-
 ### Values
 Helm Charts use `values.yaml` for providing default values to 'variables' used in the chart templates. These values may be overridden either by editing the `values.yaml` file or during `helm install`. For example, such as the namespace, number of drillbits and more to the `template` files
 
@@ -68,6 +65,7 @@ zookeeper:
   image: agirish/zookeeper:3.6.0  # Zookeeper image name with tag
 ```
 
+## Usage
 ### Install
 Drill Helm Charts can be installed using the following command: 
 ```
