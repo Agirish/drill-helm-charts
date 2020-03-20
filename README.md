@@ -44,46 +44,67 @@ drill/
 ### Values
 Helm Charts use `values.yaml` for providing default values to 'variables' used in the chart templates. These values may be overridden either by editing the `values.yaml` file or during `helm install`. For example, such as the namespace, number of drillbits and more to the `template` files
 
-Drill Helm Charts contain the following default values:
-```
-repo: hub.docker.com/u/           # Drill Image repository
-
-global:
-  namespace: default              # Provide the NAMESPACE_NAME value here
-
-drill:
-  id: drill                       # Drill Cluster Name
-  count: 1                        # Number of drill-bits per Drill Cluster
-  memory: 5Gi                     # Memory for each drill pod (in Gigibytes - Gi)
-  cpu: 500m                       # CPU for each drill pod (in milli-cpus)
-  image: agirish/drill:1.17.0     # Drill image name with tag
-
-zookeeper:
-  id: zk                          # Zookeeper Name
-  memory: 2Gi                     # Memory for each ZK pod (in Gigibytes - Gi)
-  cpu: 500m                       # CPU for each ZK pod (in milli-cpus)
-  image: agirish/zookeeper:3.6.0  # Zookeeper image name with tag
-```
+Please refer to the [values.yaml](drill/values.yaml) file for details on default values for Drill Helm Charts.
 
 ## Usage
 ### Install
-Drill Helm Charts can be installed as follows: 
+
+#### Simple Deploy
+Drill Helm Charts can be deployed as simply as follows: 
 ```
 # helm install <UNIQUE_NAME> drill/
 helm install drill1 drill/
 ```
+#### Using Namespaces to Deploy Multple Drill Clusters
 Kubernetes [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) can be used when more that one Drill Cluster needs to be created. We use the `default` namespace by default. To create a namespace, use the following command:
 ```
 # kubectl create namespace <NAMESPACE_NAME>
-kubectl create namespace namespace1
+kubectl create namespace namespace2
 ```
 This NAMESPACE_NAME needs to be provided in `drill/values.yaml`. Or can be provided in the `helm install` command as follows:
 ```
 # helm install <UNIQUE_NAME> drill/ --set global.namespace=<NAMESPACE_NAME>
-helm install drill1 drill/ --set global.namespace=namespace1
-helm install drill2 drill/ --set global.namespace=namespace2
+helm install drill2 drill/ --set global.namespace=namespace2 --set drill.id=drillcluster2
+...
 ```
 Note that installing the Drill Helm Chart also installs the dependent Zookeeper chart. So with current design, for each instance of a Drill cluster includes a single-node Zookeeper.
+
+#### List Pods
+```
+$ kubectl get pods
+NAME                       READY   STATUS    RESTARTS   AGE
+drillcluster1-drillbit-0   1/1     Running   0          51s
+drillcluster1-drillbit-1   1/1     Running   0          51s
+zk-0                       1/1     Running   0          51s
+
+$ kubectl get pods -n namespace2
+NAME                       READY   STATUS    RESTARTS   AGE
+drillcluster2-drillbit-0   1/1     Running   0          47s
+drillcluster2-drillbit-1   1/1     Running   0          47s
+zk-0                       1/1     Running   0          47s
+```
+
+#### List Services
+```
+$ kubectl get services
+NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                  AGE
+drill-service           ClusterIP      10.15.242.217   <none>            8047/TCP,31010/TCP,31011/TCP,31012/TCP   3m49s
+drillcluster1-web-svc   LoadBalancer   10.15.250.97    34.71.235.149     8047:30019/TCP,31010:32513/TCP           3m49s
+zk-service              ClusterIP      10.15.243.254   <none>            2181/TCP,2888/TCP,3888/TCP               3m49s
+
+$ kubectl get services -n namespace2
+NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                                  AGE
+drill-service           ClusterIP      10.15.246.116   <none>            8047/TCP,31010/TCP,31011/TCP,31012/TCP   2m9s
+drillcluster2-web-svc   LoadBalancer   10.15.249.214   130.211.220.239   8047:30019/TCP,31010:32513/TCP           2m9s
+zk-service              ClusterIP      10.15.246.218   <none>            2181/TCP,2888/TCP,3888/TCP               2m9s
+```
+#### Access Drill Web UI
+For cloud based deployments, we create a LoadBalancer type service with an EXTERNAL_IP address. Use this along with the HTTP port to access the Drill Web UI on a browser. Note that the URL is similar to a proxy which internally redirects to the Drill Web UI of any Drill pod. 
+```
+#  http://EXTERNAL_IP:PORT
+http://130.211.220.239:8047
+```
+![Drill Web UI via LoadBalancer for GKE](docs/images/apacheDrillExternalWebUI.jpg)
 
 ### Package
 Drill Helm Charts can be packaged for distribution as follows:
