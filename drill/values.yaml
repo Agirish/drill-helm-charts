@@ -5,6 +5,8 @@ global:
 
 drill:
   id: drillcluster1
+  # The following environments are currently supported: [gke, on-prem]
+  environment: gke
   count: 2
   memory: 5Gi
   cpu: 4000m

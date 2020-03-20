@@ -15,6 +15,12 @@ spec:
     name: server
     port: {{ .Values.drill.userServerPort }}
     targetPort: {{ .Values.drill.userServerPort }}
+  {{ if eq .Values.drill.environment "gke" }}
   type: LoadBalancer
+  {{ else if eq .Values.drill.environment "on-prem" }}
+  type: NodePort
+  {{ else }}
+  {{ fail "Empty or invalid value provided. Valid choices are [gke|on-prem]" }}
+  {{ end }}
   selector:
     app: drill-app
