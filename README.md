@@ -65,7 +65,6 @@ This NAMESPACE_NAME needs to be provided in `drill/values.yaml`. Or can be provi
 ```
 # helm install <UNIQUE_NAME> drill/ --set global.namespace=<NAMESPACE_NAME>
 helm install drill2 drill/ --set global.namespace=namespace2 --set drill.id=drillcluster2
-...
 ```
 Note that installing the Drill Helm Chart also installs the dependent Zookeeper chart. So with current design, for each instance of a Drill cluster includes a single-node Zookeeper.
 
@@ -116,7 +115,7 @@ Successfully packaged chart and saved it to: /Users/agirish/Projects/drill-helm-
 ### Uninstall
 Drill Helm Charts can be uninstalled as follows: 
 ```
-# helm [uninstall|delete] --purge <UNIQUE_NAME_USED_ABOVE>
+# helm [uninstall|delete] <UNIQUE_NAME_USED_ABOVE>
 helm delete drill1
 helm delete drill2
 ```
