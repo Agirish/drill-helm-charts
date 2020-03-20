@@ -1,49 +1,89 @@
+# Drill Image repository
 repo: hub.docker.com/u/
 
+# Global sub-section
 global:
+  # Namespace for the Drill chart (and dependent Zookeeper chart)
+  # Note that only one Drill cluster can be deployed in a given namespace
   namespace: default
 
+# Drill sub-section
 drill:
+  # Name of the Drill cluster. Also used to create the ZK node for the Drill cluster
   id: drillcluster1
-  # The following environments are currently supported: [gke, on-prem]
+  # Kubernetes environment. Currently supported values: [gke, on-prem]
   environment: gke
+  # Number of Drill Pods which are launched in parallel and join to form a Drill Cluster
   count: 2
+  # Total memory for each Drill pod
   memory: 5Gi
+  # Total CPU for each Drill pod
   cpu: 4000m
+  # Drill image with tag
   image: agirish/drill:1.17.0
+  # Drill's HTTP port
   httpPort: 8047
+  # User Server port. The Bit Server Port and Data Server ports are +1 and +2
   userServerPort: 31010
+  # Periodically, a diagnostic is performed to check the 'liveness' of a Drill container
+  # The livenessProbe indicates whether the Container is running. If the probe fails, it's restarted
   livenessProbe:
     exec:
+      # The absolute path of the liveness probe script on the pod
       command:
         - sh
         - -c
         - /opt/drill/bin/isLive.sh
+    # Number of seconds after the container has started before probes are initiated
+    # (to account for time taken by Drillbit process to start)
     initialDelaySeconds: 10
+    # Number of seconds after which to retry probes
     periodSeconds: 30
+    # Number of seconds after which probes time out
     timeoutSeconds: 10
+    # Number of retries in case of probe failures
     failureThreshold: 10
+  # Periodically, a diagnostic is performed to check the 'readiness' of a Drill container
+  # The readinessProbe indicates whether the Container is ready to service requests. If the probe fails,
+  # the Pod's IP address is removed from the endpoints of all Services that match the Pod
   readinessProbe:
     exec:
+      # The absolute path of the readiness probe script on the pod
       command:
         - sh
         - -c
         - /opt/drill/bin/isReady.sh
+    # Number of seconds after the container has started before probes are initiated
+    # (to account for time taken by Drillbit process to start)
     initialDelaySeconds: 10
+    # Number of seconds after which to retry probes
     periodSeconds: 30
+    # Number of seconds after which probes time out
     timeoutSeconds: 10
+    # Number of retries in case of probe failures
     failureThreshold: 5
+  # Lifecycle hooks
   lifecycle:
+    # During a scale down of the Drill Cluster, a preStop hook is executed on the pod replicas
+    # that are to be brought down, which instructs the Drillbit process to gracefully shutdown
     preStop:
       exec:
+        # The absolute path of the preStop script on the pod
         command:
           - sh
           - -c
           - /opt/drill/bin/preStop.sh
+  # Number of seconds after which pods are forcefully killed
+  # Note: Lower values may cause running queries to fail
   terminationGracePeriodSeconds: 60
 
+# ZooKeeper sub-section
 zookeeper:
+  # Name of the ZooKeeper quorum (currently single-node configuration only)
   id: zk
+  # Total memory for each ZooKeeper pod
   memory: 2Gi
+  # Total CPU for each ZooKeeper pod
   cpu: 500m
+  # ZooKeeper image with tag
   image: agirish/zookeeper:3.6.0
