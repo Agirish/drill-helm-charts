@@ -79,6 +79,7 @@ spec:
                   {{- range .Values.drill.lifecycle.preStop.exec.command }}
                   - {{ . | quote }}
                   {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.drill.terminationGracePeriodSeconds }}
       initContainers:
         - name: zk-available
           image: busybox

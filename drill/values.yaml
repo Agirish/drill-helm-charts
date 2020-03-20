@@ -38,6 +38,7 @@ drill:
           - sh
           - -c
           - /opt/drill/bin/preStop.sh
+  terminationGracePeriodSeconds: 60
 
 zookeeper:
   id: zk
