@@ -11,6 +11,26 @@ drill:
   image: agirish/drill:1.17.0
   httpPort: 8047
   userServerPort: 31010
+  livenessProbe:
+    exec:
+      command:
+        - sh
+        - -c
+        - /opt/drill/bin/isLive.sh
+    initialDelaySeconds: 10
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 10
+  readinessProbe:
+    exec:
+      command:
+        - sh
+        - -c
+        - /opt/drill/bin/isReady.sh
+    initialDelaySeconds: 10
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 5
 
 zookeeper:
   id: zk

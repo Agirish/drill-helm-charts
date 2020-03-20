@@ -51,6 +51,26 @@ spec:
               value: "{{.Values.drill.httpPort}}"
             - name: DRILL_USER_SERVER_PORT
               value: "{{.Values.drill.userServerPort}}"
+          livenessProbe:
+            exec:
+              command:
+              {{- range .Values.drill.livenessProbe.exec.command }}
+                - {{ . | quote }}
+              {{- end }}
+            initialDelaySeconds: {{ .Values.drill.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.drill.livenessProbe.periodSeconds }}
+            timeoutSeconds:  {{ .Values.drill.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.drill.livenessProbe.failureThreshold }}
+          readinessProbe:
+            exec:
+              command:
+              {{- range .Values.drill.readinessProbe.exec.command }}
+              - {{ . | quote }}
+              {{- end }}
+            initialDelaySeconds: {{ .Values.drill.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.drill.readinessProbe.periodSeconds }}
+            timeoutSeconds:  {{ .Values.drill.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.drill.readinessProbe.failureThreshold }}
       initContainers:
         - name: zk-available
           image: busybox
