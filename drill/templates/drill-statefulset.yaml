@@ -34,9 +34,9 @@ spec:
               name: http
             - containerPort: {{ .Values.drill.userServerPort }}
               name: userport
-            - containerPort: {{ add .Values.drill.userServerPort +1 }}
+            - containerPort: {{ add .Values.drill.userServerPort 1 }}
               name: controlport
-            - containerPort: {{ add .Values.drill.userServerPort +2 }}
+            - containerPort: {{ add .Values.drill.userServerPort 2 }}
               name: dataport
           env:
             - name: KUBERNETES_CONTAINER

@@ -10,8 +10,8 @@ spec:
     - name: userport
       port: {{ .Values.drill.userServerPort }}
     - name: controlport
-      port: {{ add .Values.drill.userServerPort +1 }}
+      port: {{ add .Values.drill.userServerPort 1 }}
     - name: dataport
-      port: {{ add .Values.drill.userServerPort +2 }}
+      port: {{ add .Values.drill.userServerPort 2 }}
   selector:
     app: drill-app
