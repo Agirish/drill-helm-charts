@@ -5,7 +5,7 @@ global:
 
 drill:
   id: drillcluster1
-  count: 1
+  count: 2
   memory: 5Gi
   cpu: 4000m
   image: agirish/drill:1.17.0

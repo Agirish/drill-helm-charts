@@ -6,7 +6,7 @@ metadata:
 spec:
   serviceName: drill-service
   replicas: {{.Values.drill.count}}
-  podManagementPolicy: Parallel,
+  podManagementPolicy: Parallel
   selector: 
     matchLabels: 
       app: drill-app
