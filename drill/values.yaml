@@ -31,6 +31,13 @@ drill:
     periodSeconds: 30
     timeoutSeconds: 10
     failureThreshold: 5
+  lifecycle:
+    preStop:
+      exec:
+        command:
+          - sh
+          - -c
+          - /opt/drill/bin/preStop.sh
 
 zookeeper:
   id: zk

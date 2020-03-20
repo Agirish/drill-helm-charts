@@ -25,7 +25,7 @@ RUN /opt/drill/bin/sqlline -u jdbc:drill:zk=local --run=/tmp/version.sql
 
 # Copy Scripts
 COPY distrib-env.sh drill-distrib.conf /opt/drill/conf/
-COPY isLive.sh isReady.sh /opt/drill/bin/
+COPY isLive.sh isReady.sh preStop.sh /opt/drill/bin/
 COPY start.sh /usr/bin/start.sh
 
 # Start Drill

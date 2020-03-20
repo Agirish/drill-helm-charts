@@ -71,6 +71,13 @@ spec:
             periodSeconds: {{ .Values.drill.readinessProbe.periodSeconds }}
             timeoutSeconds:  {{ .Values.drill.readinessProbe.timeoutSeconds }}
             failureThreshold: {{ .Values.drill.readinessProbe.failureThreshold }}
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  {{- range .Values.drill.lifecycle.preStop.exec.command }}
+                  - {{ . | quote }}
+                  {{- end }}
       initContainers:
         - name: zk-available
           image: busybox
