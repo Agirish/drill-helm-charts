@@ -1,0 +1,14 @@
+{{- if .Values.drill.autoscale.enabled -}}
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Values.drill.id }}-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: {{ .Values.drill.id }}-drillbit
+  minReplicas: {{ .Values.drill.autoscale.minCount }}
+  maxReplicas: {{ .Values.drill.autoscale.maxCount }}
+  targetCPUUtilizationPercentage: {{ .Values.drill.autoscale.cpuThreshold }}
+{{- end -}}

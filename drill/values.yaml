@@ -84,6 +84,11 @@ drill:
     override: "true"
     # Name of the ConfigMap with Drill config files
     configMapName: drill-config-override-cm
+  autoscale:
+    enabled: true
+    minCount: 1
+    maxCount: 4
+    cpuThreshold: 75
 
 # ZooKeeper sub-section
 zookeeper:
