@@ -55,6 +55,20 @@ Drill Helm Charts can be deployed as simply as follows:
 # helm install <UNIQUE_NAME> drill/
 helm install drill1 drill/
 ```
+#### Override Drill Config
+Overridding the following two Drill configuration files is currently supported:
+- `drill/conf/drill-env.sh`
+- `drill/conf/drill-override.conf`
+Please edit/replace them as needed. Please do NOT rename/delete.
+
+Once the above configuration files are ready, please create the `drill-config-cm` configMap to upload them to Kubernetes. When a Drill chart is deployed, the files contained within this configMap will be downloaded to each container and used by the drill-bit process during start-up.
+```
+./drill/conf/createCM.sh
+```
+or
+```
+kubectl create configmap drill-config-cm --from-file=./drill/conf/drill-override.conf --from-file=./drill/conf/drill-env.sh
+```
 #### Using Namespaces to Deploy Multple Drill Clusters
 Kubernetes [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) can be used when more that one Drill Cluster needs to be created. We use the `default` namespace by default. To create a namespace, use the following command:
 ```
