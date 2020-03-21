@@ -84,10 +84,17 @@ drill:
     override: false
     # Name of the ConfigMap with Drill config files
     configMapName: drill-config-override-cm
+  # The size of the Drill cluster (number of Drill Pod replicas) can be autoscaled
+  # With higher CPU utilization, more drill-bits are added automatically. And as the load goes down,
+  # so do the number of drill-bits in the Drill Cluster (by gracefully shutting down)
   autoscale:
-    enabled: true
+    # Flag to turn-on / turn-off this option
+    enabled: false
+    # Minimum number of Drill Pods
     minCount: 1
+    # Maximum number of Drill Pods
     maxCount: 4
+    # Target CPU Utilization Percentage
     cpuThreshold: 75
 
 # ZooKeeper sub-section
