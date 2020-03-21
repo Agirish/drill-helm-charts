@@ -79,7 +79,22 @@ spec:
                   {{- range .Values.drill.lifecycle.preStop.exec.command }}
                   - {{ . | quote }}
                   {{- end }}
+          {{- if eq .Values.drill.drillConf.override "true" }}
+          volumeMounts:
+            - mountPath: /opt/drill/conf/drill-override.conf
+              name: drill-config-cm
+              subPath: drill-override.conf
+            - mountPath: /opt/drill/conf/drill-env.sh
+              name: drill-config-cm
+              subPath: drill-env.sh
+          {{ end }}
       terminationGracePeriodSeconds: {{ .Values.drill.terminationGracePeriodSeconds }}
+      {{- if eq .Values.drill.drillConf.override "true" }}
+      volumes:
+        - name: drill-config-cm
+          configMap:
+            name: drill-config-cm
+      {{ end }}
       initContainers:
         - name: zk-available
           image: busybox

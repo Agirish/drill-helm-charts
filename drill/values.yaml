@@ -76,6 +76,14 @@ drill:
   # Number of seconds after which pods are forcefully killed
   # Note: Lower values may cause running queries to fail
   terminationGracePeriodSeconds: 60
+  # Drill Configuration can be overridden by mounting them on each Drill container.
+  # Edit the files in `conf` with your custom configurations
+  # Use `conf/createCM.sh` to create the ConfigMap
+  drillConf:
+    # Flag to turn-on / turn-off this option
+    override: "true"
+    # Name of the ConfigMap with Drill config files
+    configMapName: drill-config-override-cm
 
 # ZooKeeper sub-section
 zookeeper:
