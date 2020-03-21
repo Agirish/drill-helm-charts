@@ -81,7 +81,7 @@ drill:
   # Use `conf/createCM.sh` to create the ConfigMap
   drillConf:
     # Flag to turn-on / turn-off this option
-    override: "true"
+    override: false
     # Name of the ConfigMap with Drill config files
     configMapName: drill-config-override-cm
   autoscale:

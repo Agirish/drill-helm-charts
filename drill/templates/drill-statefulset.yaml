@@ -79,7 +79,7 @@ spec:
                   {{- range .Values.drill.lifecycle.preStop.exec.command }}
                   - {{ . | quote }}
                   {{- end }}
-          {{- if eq .Values.drill.drillConf.override "true" }}
+          {{- if .Values.drill.drillConf.override }}
           volumeMounts:
             - mountPath: /opt/drill/conf/drill-override.conf
               name: drill-config-cm
@@ -89,7 +89,7 @@ spec:
               subPath: drill-env.sh
           {{ end }}
       terminationGracePeriodSeconds: {{ .Values.drill.terminationGracePeriodSeconds }}
-      {{- if eq .Values.drill.drillConf.override "true" }}
+      {{- if .Values.drill.drillConf.override }}
       volumes:
         - name: drill-config-cm
           configMap:
