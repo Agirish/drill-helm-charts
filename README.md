@@ -59,6 +59,7 @@ helm install drill1 drill/
 Overridding the following two Drill configuration files is currently supported:
 - `drill/conf/drill-env.sh`
 - `drill/conf/drill-override.conf`
+
 Please edit/replace them as needed. Please do NOT rename/delete.
 
 Once the above configuration files are ready, please create the `drill-config-cm` configMap to upload them to Kubernetes. When a Drill chart is deployed, the files contained within this configMap will be downloaded to each container and used by the drill-bit process during start-up.
@@ -69,6 +70,7 @@ or
 ```
 kubectl create configmap drill-config-cm --from-file=./drill/conf/drill-override.conf --from-file=./drill/conf/drill-env.sh
 ```
+Enable config overriding by editing the drillConf section in `drill/values.yaml` file.
 #### Using Namespaces to Deploy Multple Drill Clusters
 Kubernetes [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) can be used when more that one Drill Cluster needs to be created. We use the `default` namespace by default. To create a namespace, use the following command:
 ```
@@ -81,7 +83,6 @@ This NAMESPACE_NAME needs to be provided in `drill/values.yaml`. Or can be provi
 helm install drill2 drill/ --set global.namespace=namespace2 --set drill.id=drillcluster2
 ```
 Note that installing the Drill Helm Chart also installs the dependent Zookeeper chart. So with current design, for each instance of a Drill cluster includes a single-node Zookeeper.
-
 #### List Pods
 ```
 $ kubectl get pods
@@ -96,7 +97,6 @@ drillcluster2-drillbit-0   1/1     Running   0          47s
 drillcluster2-drillbit-1   1/1     Running   0          47s
 zk-0                       1/1     Running   0          47s
 ```
-
 #### List Services
 ```
 $ kubectl get services
@@ -114,10 +114,27 @@ zk-service              ClusterIP      10.15.246.218   <none>            2181/TC
 #### Access Drill Web UI
 For cloud based deployments, we create a LoadBalancer type service with an EXTERNAL_IP address. Use this along with the HTTP port to access the Drill Web UI on a browser. Note that the URL is similar to a proxy which internally redirects to the Drill Web UI of any Drill pod. 
 ```
-#  http://EXTERNAL_IP:PORT
+# http://EXTERNAL_IP:PORT
 http://130.211.220.239:8047
 ```
 ![Drill Web UI via LoadBalancer for GKE](docs/images/apacheDrillExternalWebUI.jpg)
+
+### Upgrading Drill Charts
+Currently only scaling up/down the number of Drill pods is supported as part of Helm Chart upgrades. To resize a Drill Cluster, edit the `drill/values.yaml` file and apply the changes as below:
+```
+# helm upgrade <HELM_INSTAL_RELEASE_NAME> drill/
+helm upgrade drill1 drill/
+```
+Alternatively, provide the count as a part of the `upgrade` command:
+```
+# helm upgrade <HELM_INSTAL_RELEASE_NAME> drill/ --set drill.autoscale.maxCount=2
+helm upgrade drill1 drill/ --set drill.autoscale.maxCount=2
+```
+
+### Autoscaling Drill Clusters
+The size of the Drill cluster (number of Drill Pod replicas / number of drill-bits) can not only be manually scaled up or down as shown above, but can also be autoscaled to simplify cluster management. When enabled, with a higher CPU utilization, more drill-bits are added automatically and as the cluster load goes down, so do the number of drill-bits in the Drill Cluster. The drill-bits deemed excessive [gracefully shut down](https://drill.apache.org/docs/stopping-drill/#gracefully-shutting-down-the-drill-process), by going into quiescent mode to permit running queries to complete.
+
+Enable autoscaling by editing the autoscale section in `drill/values.yaml` file.
 
 ### Package
 Drill Helm Charts can be packaged for distribution as follows:
@@ -133,3 +150,4 @@ Drill Helm Charts can be uninstalled as follows:
 helm delete drill1
 helm delete drill2
 ```
+Note that `LoadBalancer` and a few other Kubernetes resources may take a while to terminate. Before re-installing Drill Helm Charts, please make sure to wait until all objects from any previous installation (in the same namespace) have terminated.
