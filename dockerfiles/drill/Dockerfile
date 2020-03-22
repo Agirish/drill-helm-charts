@@ -5,10 +5,9 @@ RUN echo $VERSION
 ARG MIRROR=http://www.apache.org/dyn/closer.lua?filename=drill
 RUN echo $MIRROR
 
-EXPOSE 8047 31010 31011 31012
-
 # Install Pre-Requisite Packages
-RUN yum install -y java-1.8.0-openjdk-devel vim which; yum clean all ; rm -rf /var/cache/yum
+RUN yum install -y epel-release; yum clean all ; rm -rf /var/cache/yum
+RUN yum install -y java-1.8.0-openjdk-devel vim which stress; yum clean all ; rm -rf /var/cache/yum
 
 # Configure User Login
 RUN echo 'root:drill' | chpasswd
