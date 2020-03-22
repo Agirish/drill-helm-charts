@@ -90,8 +90,6 @@ drill:
   autoscale:
     # Flag to turn-on / turn-off this option
     enabled: false
-    # Minimum number of Drill Pods
-    minCount: 1
     # Maximum number of Drill Pods
     maxCount: 4
     # Target CPU Utilization Percentage

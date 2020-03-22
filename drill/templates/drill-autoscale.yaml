@@ -8,7 +8,7 @@ spec:
     apiVersion: apps/v1
     kind: StatefulSet
     name: {{ .Values.drill.id }}-drillbit
-  minReplicas: {{ .Values.drill.autoscale.minCount }}
+  minReplicas: {{ .Values.drill.count }}
   maxReplicas: {{ .Values.drill.autoscale.maxCount }}
   targetCPUUtilizationPercentage: {{ .Values.drill.autoscale.cpuThreshold }}
 {{- end -}}
