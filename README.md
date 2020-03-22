@@ -79,7 +79,7 @@ kubectl create namespace namespace2
 ```
 This NAMESPACE_NAME needs to be provided in `drill/values.yaml`. Or can be provided in the `helm install` command as follows:
 ```
-# helm install <UNIQUE_NAME> drill/ --set global.namespace=<NAMESPACE_NAME>
+# helm install <HELM_INSTALL_RELEASE_NAME> drill/ --set global.namespace=<NAMESPACE_NAME>
 helm install drill2 drill/ --set global.namespace=namespace2 --set drill.id=drillcluster2
 ```
 Note that installing the Drill Helm Chart also installs the dependent Zookeeper chart. So with current design, for each instance of a Drill cluster includes a single-node Zookeeper.
@@ -122,15 +122,19 @@ http://130.211.220.239:8047
 ### Upgrading Drill Charts
 Currently only scaling up/down the number of Drill pods is supported as part of Helm Chart upgrades. To resize a Drill Cluster, edit the `drill/values.yaml` file and apply the changes as below:
 ```
-# helm upgrade <HELM_INSTAL_RELEASE_NAME> drill/
+# helm upgrade <HELM_INSTALL_RELEASE_NAME> drill/
 helm upgrade drill1 drill/
 ```
 Alternatively, provide the count as a part of the `upgrade` command:
 ```
-# helm upgrade <HELM_INSTAL_RELEASE_NAME> drill/ --set drill.autoscale.maxCount=2
-helm upgrade drill1 drill/ --set drill.autoscale.maxCount=2
+# helm upgrade <HELM_INSTALL_RELEASE_NAME> drill/ --set drill.count=2
+helm upgrade drill1 drill/ --set drill.count=2
 ```
-
+If autoscaling is enabled, 
+```
+# helm upgrade <HELM_INSTALL_RELEASE_NAME> drill/ --set drill.count=<NEW_MIN_COUNT> --set drill.autoscale.maxCount=<NEW_MAX_COUNT>
+helm upgrade drill1 drill/ --set drill.count=3 --set drill.autoscale.maxCount=6
+```
 ### Autoscaling Drill Clusters
 The size of the Drill cluster (number of Drill Pod replicas / number of drill-bits) can not only be manually scaled up or down as shown above, but can also be autoscaled to simplify cluster management. When enabled, with a higher CPU utilization, more drill-bits are added automatically and as the cluster load goes down, so do the number of drill-bits in the Drill Cluster. The drill-bits deemed excessive [gracefully shut down](https://drill.apache.org/docs/stopping-drill/#gracefully-shutting-down-the-drill-process), by going into quiescent mode to permit running queries to complete.
 
@@ -146,7 +150,7 @@ Successfully packaged chart and saved it to: /Users/agirish/Projects/drill-helm-
 ### Uninstall
 Drill Helm Charts can be uninstalled as follows: 
 ```
-# helm [uninstall|delete] <UNIQUE_NAME_USED_ABOVE>
+# helm [uninstall|delete] <HELM_INSTALL_RELEASE_NAME>
 helm delete drill1
 helm delete drill2
 ```
